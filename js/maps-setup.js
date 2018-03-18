@@ -3,11 +3,11 @@
 // whenever we need to -- they have 'global scope'
 var my_map; // this will hold the map
 var my_map_options; // this will hold the options we'll use to create the map
-var my_center = new google.maps.LatLng(41.8986,12.4768); // center of map
+var my_center = new google.maps.LatLng(49.299036,-123.087360); // center of map
 var my_markers = []; // we use this in the main loop below to hold the markers
 // this one is strange.  In google maps, there is usually only one
 // infowindow object -- its content and position change when you click on a
-// marker.  This is counterintuitive, but we need to live with it.  
+// marker.  This is counterintuitive, but we need to live with it.
 var infowindow = new google.maps.InfoWindow({content: ""});
 var legendHTML = "<h1>Legend</h1>";
 
@@ -18,7 +18,7 @@ var redURL = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
 var red_markers = [];
 var blue_markers = [];
 
-// this is for fun, if you want it.  With this powerful feature you can add arbitrary
+// 41.8986,12.4768 this is for fun, if you want it.  With this powerful feature you can add arbitrary
 // data layers to your map.  It's cool. Learn more at:
 // https://developers.google.com/maps/documentation/javascript/datalayer#load_geojson
 var myGeoJSON= {
@@ -46,7 +46,7 @@ var myGeoJSON= {
 function initializeMap() {
     my_map_options = {
         center:  my_center, // to change this value, change my_center above
-        zoom: 13,  // higher is closer-up
+        zoom: 12,  // higher is closer-up
         mapTypeId: google.maps.MapTypeId.HYBRID // you can also use TERRAIN, STREETMAP, SATELLITE
     };
 
@@ -55,26 +55,37 @@ function initializeMap() {
                                  my_map_options);
     // this is an *array* that holds all the marker info
     var all_my_markers =
-            [{position: new google.maps.LatLng(41.9000,12.5000),
+            [{position: new google.maps.LatLng(49.286170,-123.099494),
               map: my_map,
-              icon: blueURL, // this sets the image that represents the marker in the map to the one
+              icon: redURL, // 41.9000,12.5000 this sets the image that represents the marker in the map to the one
                              // located at the URL which is given by the variable blueURL, see above
               title: "first Marker",
-              window_content: "<h1>Marker1</h1><p> and this would be the extended description</p>"
+              window_content: "<h1>Vancouver Ferry Port</h1><p>Vancouver <----> West Vancouver <br>Vancouver <----> North Vancouver </p>"
              },
-             {position: new google.maps.LatLng(41.8902,12.4923),
+             {position: new google.maps.LatLng(49.326111,-123.154495),
               map: my_map,
-              icon: blueURL, // this sets the image that represents the marker in the map
+              icon: redURL, // this sets the image that represents the marker in the map
               title: "second Marker",
-              window_content: "<h1>Marker2</h1><p> and <a href='http://something'>this would</a> be the extended description</p>"
+              window_content: "<h1>West Vancouver Port</h1><p>West Vancouver <----> Vancouver</p"
             },
-            {position: new google.maps.LatLng(41.8986,12.4768),
+            {position: new google.maps.LatLng(49.310140,-123.080611),
              map: my_map,
              icon: redURL, // this sets the image that represents the marker in the map
              title: "third Marker",
-             window_content: '<h1>Marker3</h1><img title="Picture of Quote. Src: someone, some year"  src="https://s-media-cache-ak0.pinimg.com/736x/6d/e2/25/6de2251b8b4be709dcc936ae4f0caaaf.jpg"/>' +
-             '<blockquote>quote quote quote quote</blockquote>'
-           }
+             window_content: '<h1>North Vancouver Ferry Port</h1><p>North Vancouver <----> Vancouver</p>'
+           },
+           {position: new google.maps.LatLng(49.314640,-123.139176),
+            map: my_map,
+            icon: blueURL, // this sets the image that represents the marker in the map
+            title: "fourth marker",
+            window_content: '<h1>Lions Gate Bridge</h1><p></p>'
+          },
+          {position: new google.maps.LatLng(49.296275,-123.026200),
+           map: my_map,
+           icon: blueURL, // this sets the image that represents the marker in the map
+           title: "Fifth Marker",
+           window_content: '<h1>Second Narrows Bridge</h1>'
+         }
             ];
 
     for (j = 0; j < all_my_markers.length; j++) {
@@ -86,7 +97,7 @@ function initializeMap() {
             window_content: all_my_markers[j].window_content});
 
         // this next line is ugly, and you should change it to be prettier.
-        // be careful not to introduce syntax errors though.  
+        // be careful not to introduce syntax errors though.
       legendHTML +=
         "<div class=\"pointer\" onclick=\"locateMarker(my_markers[" + j + "])\"> " +
           marker.window_content + "</div>";
@@ -104,40 +115,46 @@ function initializeMap() {
         } else if (all_my_markers[j].icon == redURL ) {
             red_markers.push({marker:marker, listener:listener});
         }
-        
+
     }
     document.getElementById("map_legend").innerHTML = legendHTML;
   my_map.data.addGeoJson(myGeoJSON);
 
-  var romeCircle = new google.maps.Rectangle({
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35,
-    // in general, we always have to *set the map* when we
-    // add features. 
-    map: my_map,
-    bounds: {
-      north: 42.685,
-      south: 40.671,
-      east: 12.501,
-      west: 12.485
-    },
 
-    center: {"lat": 41.9000, "lng":12.5000},
-    radius: 1000
-  });  
-  my_map.data.setStyle(function (feature) {
-    var thisColor = feature.getProperty("myColor");
-    return {
-      fillColor: thisColor,
-      strokeColor: thisColor,
-      strokeWeight: 5
-    };
+var VancouverToNorthVancouverCoordinates = [
+          {lat: 49.286170, lng: -123.099494},
+          {lat: 49.310140, lng: -123.080611},
+        ];
+        var VantoNVan = new google.maps.Polyline({
+          path: VancouverToNorthVancouverCoordinates,
+          geodesic: true,
+          strokeColor: '#00FF00',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
 
-});
-}
+        VantoNVan.setMap(my_map);
+        var VancouverToWestVancouverCoordinates = [
+                  {lat: 49.286170, lng: -123.099494},
+                  {lat: 49.30019, lng: -123.09533},
+                  {lat: 49.314640, lng: -123.139176},
+                  {lat: 49.32101, lng: -123.16262},
+                  {lat: 49.326111, lng: -123.154495},
+                ];
+                var VantoWVan = new google.maps.Polyline({
+                  path: VancouverToWestVancouverCoordinates,
+                  geodesic: true,
+                  strokeColor: '#FF0000',
+                  strokeOpacity: 1.0,
+                  strokeWeight: 2
+                });
+
+                VantoWVan.setMap(my_map);
+
+      }
+
+
+
 
 // this hides all markers in the array
 // passed to it, by attaching them to
@@ -172,7 +189,7 @@ function toggleMarkers (marker_array, map) {
 
 
 // I added this for fun.  It allows you to trigger the infowindow
-// from outside the map.  
+// from outside the map.
 function locateMarker (marker) {
     console.log(marker);
     my_map.panTo(marker.marker.position);

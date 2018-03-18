@@ -8,7 +8,7 @@ div#mapcontainer {
   font-family:Arial, sans-serif;
   font-size:11px;
   border:6px double #5E5C63;
-  width:66%;
+  width:100%;
   float:left;
 }
 
@@ -19,6 +19,7 @@ div#mapcontainer {
 */
 div#map_canvas {
   height:450px;
+
 }
 
 /* this is the legend div. Can you make it into a right sidebar? you may
@@ -26,6 +27,7 @@ have to add some extra css to the mapcontainer div */
 div#map_legend {
     max-width:30%;
     float:left;
+
 }
 
 /* if you want, you can make the text in the legend less ugly by adding
