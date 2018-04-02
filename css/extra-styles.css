@@ -67,7 +67,7 @@ button#show {
 }
 
 /* use these last three to style the text inside the
-   infowindows.  They are pretty ugly at the moment,
+   infowindow75s.  They are pretty ugly at the moment,
    consider making them prettier.
 
 */
@@ -85,7 +85,7 @@ div.description {
 }
 
 div.gm-style-iw {
-    max-height: 75px;
+    max-height: 10000px;
 }
 div.gm-style-iw img {
     max-width: 75% !important;
@@ -106,7 +106,7 @@ div.gm-style-iw blockquote {
     box-shadow: rgba(0,0,0, .5) 0 0 5px;
 }
 
-/* SIDEPANEL */
+/* SIDEPANEL */ 640
 .sidepanel {
    margin: 15px;
    float: right;
